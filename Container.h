@@ -23,6 +23,12 @@ public:
     virtual void set_capacity(int cap) = 0;
 
     template <typename ... Args>
+    void push(T value, Args ... args) {
+        this->push(value);
+        return push(args ...);
+    }
+
+    template <typename ... Args>
     void emplace(int position, T value, Args ... args) {
         if(position >= this->size)
             return;
@@ -55,14 +61,6 @@ public:
         if(position >= this->size)
             return static_cast<T>(NULL);
         return (*this)[position];
-    }
-
-    
-
-    void insert(int position, T value){
-        if(position >= this->size)
-            return;
-        (*this)[position] = value;
     }
 };
 #endif

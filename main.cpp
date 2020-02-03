@@ -1,83 +1,57 @@
 #include "List.h"
 #include "Vector.h"
 
+template <typename T, typename ... Args>
+void initialize(Container<T>* A, T value, Args ... args);
+
+template <typename T, typename ... Args>
+void work_with_container(Container<T>* A, T value, Args ... ars);
+
 int main(){
     Container<int> * containerV = new Vector<int>;
-    Container<int> * containerL = new List<int>;
-    containerL->push(10);
-    containerL->push(20);
-    containerL->push(30);
-    containerL->push(40);
-    containerL->push(50);
-    containerV->push(10);
-    containerV->push(20);
-    containerV->push(30);
-    containerV->push(40);
-    containerV->push(50);
-    containerL->print();
-    containerV->print();
-    cout<<containerV->get_size()<<endl;
-    cout<<containerL->get_size()<<endl;
-    cout<<containerV->get(0)<<endl;
-    cout<<containerL->get(0)<<endl;
-    cout<<"emplace start:"<<endl;
-    containerV->emplace(2,4);
-    containerV->print();
-    containerV->emplace(2,7,8);
-    containerV->print();
-    containerL->emplace(2,3);
-    containerL->emplace(3, 8, 9);
-    containerL->print();
-    cout<<containerL->get(4)<<endl;
-    cout<<containerV->get(3)<<endl;
-
-    containerL->shrink_to_fit();
-    cout << containerL->get_capacity() << endl;
-    containerL->push(1000);
-    containerL->print();
-    containerV->shrink_to_fit();
-    cout<< containerV->get_capacity()<<endl;
-    containerV->push(1000);
-    containerV->print();
-    cout<<"pop V start:"<<endl;
-    containerV->pop();
-    containerV->print();
-    containerV->clear();
-    containerV->print();
-    cout<<"pop L start:"<<endl;
-    containerL->pop();
-    containerL->print();
-    containerL->clear();
-    cout<<containerL->get_size()<<endl;
-    containerL->print();
-   
-    Container<char> * containerVS = new Vector<char>;
-    Container<char> * containerLS = new List<char>;
-    containerLS->push('a');
-    containerLS->push('b');
-    containerLS->push('c');
-    containerLS->push('d');
-    containerLS->push('e');
-    containerVS->push('a');
-    containerVS->push('b');
-    containerVS->push('c');
-    containerVS->push('d');
-    containerVS->push('e');
-    containerLS->print();
-    containerVS->print();
-    cout<<containerVS->get_size()<<endl;
-    cout<<containerLS->get_size()<<endl;
-    cout<<containerVS->get(0)<<endl;
-    cout<<containerLS->get(0)<<endl;
-    cout<<"emplace start:"<<endl;
-    containerVS->emplace(2,'4');
-    containerVS->print();
-    containerVS->emplace(2,'7','8');
-    containerVS->print();
-    containerLS->emplace(2,'3');
-    containerLS->emplace(3, '8', '9','0');
-    containerLS->print();
-    cout<<containerLS->get(4)<<endl;
-    cout<<containerVS->get(3)<<endl;
+    Container<char> * containerL = new List<char>;
+    initialize(containerV,10,20,30,40,50,60);
+    work_with_container(containerV,80,70,60,40);
+    cout<<"\n\n\n\n\n\n\n\n";
+    initialize(containerL,'a','b','c','d');
+    work_with_container(containerL,'z','x','y');
     system("pause");
+}
+
+template <typename T, typename ... Args>
+void initialize(Container<T>* A, T value, Args ... args) {
+    cout << "current size of container: " << A->get_size() << endl;
+    cout << "current capacity of container: " << A->get_capacity() << endl;
+    cout << "container: ";
+    A->print();
+    cout << "push values to container" << endl;
+    A->push(args...);
+    cout << "current size of container: " << A->get_size() << endl;
+    cout << "current capacity of container: " << A->get_capacity() << endl;
+    cout << "container: ";
+    A->print();
+}
+
+template <typename T, typename ... Args>
+void work_with_container(Container<T>* A, T value, Args ... args) {
+    cout << "first element of container: " << A->get(0) << endl;
+    A->emplace(1, args ...);
+    cout << "container: ";
+    A->print();
+    cout << "set capacity 40" << endl;
+    A->set_capacity(40);
+    cout << "current size of container: " << A->get_size() << endl;
+    cout << "current capacity of container: " << A->get_capacity() << endl;
+    cout << "shrink to fit" << endl;
+    A->shrink_to_fit();
+    cout << "current size of container: " << A->get_size() << endl;
+    cout << "current capacity of container: " << A->get_capacity() << endl;
+    cout << "delete last element" << endl;
+    A->pop();
+    cout << "clear container" << endl;
+    A->clear();
+    cout << "container: ";
+    A->print();
+    cout << "current size of container: " << A->get_size() << endl;
+    cout << "current capacity of container: " << A->get_capacity() << endl;
 }
